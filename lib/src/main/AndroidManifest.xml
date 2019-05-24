@@ -1,0 +1,10 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.razerdp.lib" >
+    <application>
+        <provider
+            android:name="com.razerdp.amg.AmgRuntimeTrojanProvider"
+            android:authorities="${applicationId}.amg-trojan"
+            android:exported="false"
+            android:multiprocess="false" />
+    </application>
+</manifest>
