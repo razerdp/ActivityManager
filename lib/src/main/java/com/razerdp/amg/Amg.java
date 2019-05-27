@@ -5,7 +5,6 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.SparseArray;
-import android.widget.EditText;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;

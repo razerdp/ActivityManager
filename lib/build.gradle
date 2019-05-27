@@ -24,4 +24,5 @@ android {
 }
 
 dependencies {
+    api project(':lib_annotation')
 }

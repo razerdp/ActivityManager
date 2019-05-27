@@ -10,15 +10,15 @@ import android.app.Activity;
 public class MethodInfo {
     final String methodName;
     final Class<? extends Activity> activityClass;
-    final int priority;
+    final boolean hasBundle;
 
     public MethodInfo(String methodName, Class<? extends Activity> activityClass) {
-        this(methodName, activityClass, 0);
+        this(methodName, activityClass, false);
     }
 
-    public MethodInfo(String methodName, Class<? extends Activity> activityClass, int priority) {
+    public MethodInfo(String methodName, Class<? extends Activity> activityClass, boolean hasBundle) {
         this.methodName = methodName;
         this.activityClass = activityClass;
-        this.priority = priority;
+        this.hasBundle = hasBundle;
     }
 }
