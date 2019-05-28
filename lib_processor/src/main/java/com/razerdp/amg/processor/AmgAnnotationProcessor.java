@@ -1,7 +1,5 @@
 package com.razerdp.amg.processor;
 
-import com.google.auto.service.AutoService;
-import com.razerdp.amg.annotation.BeforeClose;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
@@ -11,17 +9,14 @@ import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.WildcardTypeName;
 
 import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.ProcessingEnvironment;
-import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
-import javax.annotation.processing.SupportedSourceVersion;
+import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
@@ -57,7 +52,8 @@ import static javax.lang.model.element.Modifier.STATIC;
  * }
  * }
  */
-@AutoService(Processor.class)
+@SupportedAnnotationTypes({"com.razerdp.amg.annotation.OnClose"})
+@SuppressWarnings("NullAway")
 public class AmgAnnotationProcessor extends AbstractProcessor {
 
     private final HashMap<TypeElement, InnerInfo> methodClassed = new HashMap<>();
@@ -84,24 +80,10 @@ public class AmgAnnotationProcessor extends AbstractProcessor {
         return SourceVersion.latestSupported();
     }
 
-    @Override
-    public Set<String> getSupportedAnnotationTypes() {
-        Set<String> types = new LinkedHashSet<>();
-        for (Class<? extends Annotation> annotation : getSupportedAnnotations()) {
-            types.add(annotation.getCanonicalName());
-        }
-        return types;
-    }
-
-    private Set<Class<? extends Annotation>> getSupportedAnnotations() {
-        Set<Class<? extends Annotation>> annotations = new LinkedHashSet<>();
-        annotations.add(BeforeClose.class);
-        return annotations;
-    }
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment env) {
-        logi("======== Amg process is running =======");
+        loge("======== Amg process is running =======");
         TypeSpec finderClass = TypeSpec.classBuilder("MyGeneratedClass")
                 .addModifiers(Modifier.PUBLIC)
                 .build();
@@ -152,7 +134,7 @@ public class AmgAnnotationProcessor extends AbstractProcessor {
                         methodClassed.put(classElement, methodInfo);
                     }
                 } else {
-                    loge("@BeforeClose is only valid for methods");
+                    loge("@OnClose is only valid for methods");
                 }
             }
         }
@@ -161,20 +143,20 @@ public class AmgAnnotationProcessor extends AbstractProcessor {
             createFile();
         }*/
 
-        return false;
+        return true;
     }
 
-    private void createFile() {
-        try {
-            JavaFile javaFile = JavaFile.builder(BeforeClose.class.getPackage().getName(), createType())
-                    .addFileComment("Generated code from com.razerdp.amg.Amg. Do not modify!")
-                    .build();
-            javaFile.writeTo(mFiler);
-        } catch (IOException e) {
-            loge(e.getMessage());
-            loge("Can not write Amg process file");
-        }
-    }
+//    private void createFile() {
+//        try {
+//            JavaFile javaFile = JavaFile.builder(OnClose.class.getPackage().getName(), createType())
+//                    .addFileComment("Generated code from com.razerdp.amg.Amg. Do not modify!")
+//                    .build();
+//            javaFile.writeTo(mFiler);
+//        } catch (IOException e) {
+//            loge(e.getMessage());
+//            loge("Can not write Amg process file");
+//        }
+//    }
 
     private TypeSpec createType() {
         TypeSpec.Builder result = TypeSpec.classBuilder(GENERATE_FILE_NAME)

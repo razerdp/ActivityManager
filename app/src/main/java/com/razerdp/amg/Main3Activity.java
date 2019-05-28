@@ -1,9 +1,7 @@
 package com.razerdp.amg;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
-import com.razerdp.amg.annotation.BeforeClose;
+import android.support.v7.app.AppCompatActivity;
 
 public class Main3Activity extends AppCompatActivity {
 
@@ -13,8 +11,4 @@ public class Main3Activity extends AppCompatActivity {
         setContentView(R.layout.activity_main3);
     }
 
-    @BeforeClose
-    public void dd(){
-
-    }
 }
