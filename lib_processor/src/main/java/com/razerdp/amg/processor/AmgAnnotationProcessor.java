@@ -21,6 +21,7 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.element.VariableElement;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
@@ -30,31 +31,13 @@ import static javax.lang.model.element.Modifier.PRIVATE;
 import static javax.lang.model.element.Modifier.PUBLIC;
 import static javax.lang.model.element.Modifier.STATIC;
 
-
 /**
- * package android.demo; // PackageElement
+ * Created by razerdp on 2019/5/27
  * <p>
- * // TypeElement
- * public class DemoClass {
- * <p>
- * // VariableElement
- * private boolean mVariableType;
- * <p>
- * // VariableElement
- * private VariableClassE m VariableClassE;
- * <p>
- * // ExecuteableElement
- * public DemoClass () {
- * }
- * <p>
- * // ExecuteableElement
- * public void resolveData (Demo data   //TypeElement ) {
- * }
- * }
+ * Description
  */
 @SupportedAnnotationTypes({"com.razerdp.amg.annotation.OnClose"})
-@SuppressWarnings("NullAway")
-public class AmgAnnotationProcessor extends AbstractProcessor {
+public final class AmgAnnotationProcessor extends AbstractProcessor {
 
     private final HashMap<TypeElement, InnerInfo> methodClassed = new HashMap<>();
 
@@ -83,8 +66,9 @@ public class AmgAnnotationProcessor extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment env) {
+        System.out.println("======== Amg process is running =======");
         loge("======== Amg process is running =======");
-        TypeSpec finderClass = TypeSpec.classBuilder("MyGeneratedClass")
+        TypeSpec finderClass = TypeSpec.classBuilder("GGClass")
                 .addModifiers(Modifier.PUBLIC)
                 .build();
 
@@ -96,7 +80,8 @@ public class AmgAnnotationProcessor extends AbstractProcessor {
             loge(e.getMessage());
             e.printStackTrace();
         }
-       /* logi("======== Amg process is running =======");
+/*
+        logi("======== Amg process is running =======");
         if (env.processingOver()) {
             if (!annotations.isEmpty()) {
                 loge("======= Amg process run finish with something wrong ======= ");
@@ -141,22 +126,23 @@ public class AmgAnnotationProcessor extends AbstractProcessor {
 
         if (!methodClassed.isEmpty()) {
             createFile();
-        }*/
+        }
+*/
 
-        return true;
+        return false;
     }
 
-//    private void createFile() {
-//        try {
-//            JavaFile javaFile = JavaFile.builder(OnClose.class.getPackage().getName(), createType())
-//                    .addFileComment("Generated code from com.razerdp.amg.Amg. Do not modify!")
-//                    .build();
-//            javaFile.writeTo(mFiler);
-//        } catch (IOException e) {
-//            loge(e.getMessage());
-//            loge("Can not write Amg process file");
-//        }
-//    }
+/*    private void createFile() {
+        try {
+            JavaFile javaFile = JavaFile.builder(OnClose.class.getPackage().getName(), createType())
+                    .addFileComment("Generated code from com.razerdp.amg.Amg. Do not modify!")
+                    .build();
+            javaFile.writeTo(mFiler);
+        } catch (IOException e) {
+            loge(e.getMessage());
+            loge("Can not write Amg process file");
+        }
+    }*/
 
     private TypeSpec createType() {
         TypeSpec.Builder result = TypeSpec.classBuilder(GENERATE_FILE_NAME)
