@@ -109,23 +109,23 @@ public class Amg {
     }
 
 
-    public void close(Class<? extends Activity>... classes) {
-        close(true, classes);
-    }
-
-    public void close(boolean closeAll, Class<? extends Activity>... classes) {
-        if (classes == null) return;
-        for (Class<? extends Activity> aClass : classes) {
-
-        }
-    }
+//    public void close(Class<? extends Activity>... classes) {
+//        close(true, classes);
+//    }
+//
+//    public void close(boolean closeAll, Class<? extends Activity>... classes) {
+//        if (classes == null) return;
+//        for (Class<? extends Activity> aClass : classes) {
+//
+//        }
+//    }
 
 
     private class ActivityInfo {
         final WeakReference<Activity> act;
         final int index;
 
-        public ActivityInfo(Activity activity, int index) {
+        ActivityInfo(Activity activity, int index) {
             this.act = new WeakReference<>(activity);
             this.index = index;
         }

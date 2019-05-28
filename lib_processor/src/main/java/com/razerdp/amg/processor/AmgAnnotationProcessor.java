@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -22,13 +21,11 @@ import javax.annotation.processing.Filer;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
+import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
-import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.element.VariableElement;
-import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
@@ -105,6 +102,19 @@ public class AmgAnnotationProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment env) {
         logi("======== Amg process is running =======");
+        TypeSpec finderClass = TypeSpec.classBuilder("MyGeneratedClass")
+                .addModifiers(Modifier.PUBLIC)
+                .build();
+
+        JavaFile javaFile = JavaFile.builder("com.razerdp.amg", finderClass).build();
+
+        try {
+            javaFile.writeTo(mFiler);
+        } catch (IOException e) {
+            loge(e.getMessage());
+            e.printStackTrace();
+        }
+       /* logi("======== Amg process is running =======");
         if (env.processingOver()) {
             if (!annotations.isEmpty()) {
                 loge("======= Amg process run finish with something wrong ======= ");
@@ -148,26 +158,22 @@ public class AmgAnnotationProcessor extends AbstractProcessor {
         }
 
         if (!methodClassed.isEmpty()) {
-            return createFile();
-        }
-
+            createFile();
+        }*/
 
         return false;
     }
 
-    private boolean createFile() {
+    private void createFile() {
         try {
             JavaFile javaFile = JavaFile.builder(BeforeClose.class.getPackage().getName(), createType())
                     .addFileComment("Generated code from com.razerdp.amg.Amg. Do not modify!")
                     .build();
             javaFile.writeTo(mFiler);
-            return true;
         } catch (IOException e) {
             loge(e.getMessage());
             loge("Can not write Amg process file");
-            e.printStackTrace();
         }
-        return false;
     }
 
     private TypeSpec createType() {
