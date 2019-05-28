@@ -1,5 +1,6 @@
 package com.razerdp.amg.processor;
 
+import com.razerdp.amg.annotation.OnClose;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
@@ -9,19 +10,19 @@ import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.WildcardTypeName;
 
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
-import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.element.VariableElement;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
@@ -36,7 +37,6 @@ import static javax.lang.model.element.Modifier.STATIC;
  * <p>
  * Description
  */
-@SupportedAnnotationTypes({"com.razerdp.amg.annotation.OnClose"})
 public final class AmgAnnotationProcessor extends AbstractProcessor {
 
     private final HashMap<TypeElement, InnerInfo> methodClassed = new HashMap<>();
@@ -63,6 +63,20 @@ public final class AmgAnnotationProcessor extends AbstractProcessor {
         return SourceVersion.latestSupported();
     }
 
+    @Override
+    public Set<String> getSupportedAnnotationTypes() {
+        Set<String> types = new LinkedHashSet<>();
+        for (Class<? extends Annotation> annotation : getSupportedAnnotations()) {
+            types.add(annotation.getCanonicalName());
+        }
+        return types;
+    }
+
+    private Set<Class<? extends Annotation>> getSupportedAnnotations() {
+        Set<Class<? extends Annotation>> annotations = new LinkedHashSet<>();
+        annotations.add(OnClose.class);
+        return annotations;
+    }
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment env) {

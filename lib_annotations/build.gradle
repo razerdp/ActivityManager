@@ -4,7 +4,5 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
-    implementation project(':lib_annotations')
-    implementation 'com.squareup:javapoet:1.10.0'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
-
