@@ -3,7 +3,7 @@ package com.razerdp.amg;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.razerdp.amg.annotation.OnClose;
+import com.razerdp.amg.annotation.BeforeClose;
 
 public class Main3Activity extends AppCompatActivity {
 
@@ -14,7 +14,7 @@ public class Main3Activity extends AppCompatActivity {
     }
 
 
-    @OnClose
+    @BeforeClose
     private void close() {
 
     }
