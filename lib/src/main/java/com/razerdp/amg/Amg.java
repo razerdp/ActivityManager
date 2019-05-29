@@ -11,6 +11,7 @@ import android.util.SparseArray;
 
 import com.razerdp.amg.annotation.BeforeClose;
 import com.razerdp.amg.model.IAnnotationMethodProcessor;
+import com.razerdp.amg.model.MethodInfo;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
@@ -197,8 +198,9 @@ public class Amg {
         }
     }
 
-    private boolean doOnProcessor(ActivityInfo activityInfo, Pair<Class<? extends Activity>, Bundle> value) {
-        return false;
+    private void doOnProcessor(ActivityInfo activityInfo, Pair<Class<? extends Activity>, Bundle> value) {
+        MethodInfo methodInfo = methodProcessor.getMethodInfo(value.first);
+        methodInfo.invoke(activityInfo.act.get(), value.second);
     }
 
 
