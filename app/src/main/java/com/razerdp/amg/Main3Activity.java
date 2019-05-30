@@ -35,7 +35,11 @@ public class Main3Activity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.close_activity_2:
-                Amg.getInstance().finish(Main2Activity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("test", "test");
+                Amg.getInstance().multiFinish()
+                        .append(Main2Activity.class, bundle)
+                        .finish();
                 break;
         }
     }

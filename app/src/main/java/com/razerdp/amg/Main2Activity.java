@@ -22,7 +22,12 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
     }
 
     @BeforeClose
-    public void close() {
+    public void close(Bundle bundle) {
+        if (bundle != null) {
+            String ddd = bundle.getString("test");
+            Toast.makeText(this, ddd, Toast.LENGTH_SHORT).show();
+            return;
+        }
         Toast.makeText(this, "Main2Activity#BeforeClose", Toast.LENGTH_SHORT).show();
     }
 

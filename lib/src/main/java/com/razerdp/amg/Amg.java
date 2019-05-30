@@ -137,7 +137,7 @@ public class Amg {
         builder.finish();
     }
 
-    public FinishBuilder finishBuilder() {
+    public FinishBuilder multiFinish() {
         return new FinishBuilder();
     }
 
