@@ -7,8 +7,8 @@ android {
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
     }
 
     buildTypes {
@@ -21,9 +21,14 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
-    implementation project(':lib_annotations')
+    api project(':lib_annotations')
 }
+
+apply from: "$rootProject.rootDir/scripts/upload.gradle"
+

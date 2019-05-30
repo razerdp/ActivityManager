@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.razerdp.amg.annotation.BeforeClose;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -31,5 +33,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(this, Main2Activity.class));
                 break;
         }
+    }
+
+    @BeforeClose
+    public void cc(){
+
     }
 }
